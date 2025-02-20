@@ -41,4 +41,15 @@ tensorboard --logdir ~/generative-recommenders/exps/ml-1m-l200/ --port 24001 --b
 tensorboard --logdir ~/generative-recommenders/exps/ml-20m-l200/ --port 24001 --bind_all
 ```
 
+## Citation
 
+If you find FuXi-$\alpha$ useful, please cite it as:
+
+```
+@article{ye2025fuxi,
+  title={FuXi-$$\backslash$alpha $: Scaling Recommendation Model with Feature Interaction Enhanced Transformer},
+  author={Ye, Yufei and Guo, Wei and Chin, Jin Yao and Wang, Hao and Zhu, Hong and Lin, Xi and Ye, Yuyang and Liu, Yong and Tang, Ruiming and Lian, Defu and others},
+  journal={arXiv preprint arXiv:2502.03036},
+  year={2025}
+}
+```
