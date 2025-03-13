@@ -53,3 +53,5 @@ If you find FuXi-$\alpha$ useful, please cite it as:
   year={2025}
 }
 ```
+
+> Thanks to the excellent code repository [HSTU](https://github.com/facebookresearch/generative-recommenders)，which has saved us a lot of work in implementing the code.
