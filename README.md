@@ -2,6 +2,12 @@
 
 This is the  Pytorch implementation for our paper `FuXi-𝛼: Scaling Recommendation Model with Feature Interaction Enhanced Transformer`
 
+## Paper Overview
+
+FuXi-𝛼 is a novel recommendation model that leverages an Adaptive Multi-channel Self-attention mechanism to distinctly model temporal, positional, and semantic features, along with a Multi-stage Feed-Forward Network to enhance implicit feature interactions. This model addresses the limitations of previous sequential recommendation models that inadequately integrate temporal and positional information. Our experiments demonstrate that FuXi-𝛼 outperforms existing models and its performance continues to improve as the model size increases.
+
+<img src="assets/1742544226938.png" width="50%">
+
 ## Getting started
 
 ### Public experiments
