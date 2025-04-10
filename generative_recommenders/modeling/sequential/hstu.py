@@ -226,67 +226,6 @@ def _hstu_attention_maybe_from_cache(
         [x_offsets],
     )[0]
     return attn_output, padded_q, padded_k
-
-ActivateFunc = {
-    'silu': F.silu
-}
-
-def activate(activation: str, X: torch.Tensor, *args, **kwargs) :
-    if not activation in ActivateFunc.keys() :
-        raise Exception(f'Unsupported activation function: {activation}.')
-    return ActivateFunc[activation](X, *args, **kwargs)
-
-class FeedforwardNeuralNetwork(torch.nn.Module) :
-    def __init__(self, input_size, hidden_size, output_size, activation: str, dropout: float) :
-        super(FeedforwardNeuralNetwork, self).__init__()
-        self.lin1 = torch.nn.Linear(input_size, hidden_size)
-        self.activation = activation
-        self.dropout = torch.nn.Dropout(dropout)
-        self.lin2 = torch.nn.Linear(hidden_size, output_size)
-    
-    def forward(self, X) :
-        X = activate(self.activation, self.lin1(X))
-        X = self.dropout(X)
-        X = self.lin2(X)
-        return X
-    
-    def init(self) :
-        torch.nn.init.xavier_uniform_(self.lin1.weight)
-        torch.nn.init.xavier_uniform_(self.lin2.weight)
-
-
-class MixtureOfExperts(torch.nn.Module) :
-    def __init__(self, n_experts: int, n_active_experts: int, **kwargs) -> None:
-        super().__init__()
-        self.experts = nn.ModuleList([
-            FeedforwardNeuralNetwork(**kwargs)
-                for i in range(n_experts)
-        ])
-        self.gate = nn.Linear(kwargs['input_size'], self.n_experts, bias=False)
-        self.n_active_experts = n_active_experts
-    
-    def forward(self, X) :
-        origin_shape = X.shape
-        X = einops.rearrange(X, 'b n d -> (b n) d')
-        
-        # scores: (b * n, d)
-        scores = self.gate(X)
-        
-        # shape: (b * n, k)
-        expert_weights, expert_indices = torch.topk(scores, self.n_active_experts, dim=-1)
-        expert_weights = expert_weights.softmax(dim=-1)
-        flat_expert_indices = expert_indices.reshape(-1)
-        
-        # (b * n, d) -> (b * n * k, d)
-        X = X.repeat_interleave(self.n_active_experts, dim=0)
-        y = torch.empty_like(X)
-        for i, expert in enumerate(self.experts) :
-            y[flat_expert_indices == i] = expert(X[flat_expert_indices == i])
-        
-        y = einops.rearrange('(bn k) d -> bn k d', k=self.n_active_experts)
-        y = torch.einsum('bkd,bk->bd', y, expert_weights)
-        return y.reshape(*origin_shape)
-        
         
 class SequentialTransductionUnitJagged(torch.nn.Module):
     def __init__(
@@ -335,23 +274,7 @@ class SequentialTransductionUnitJagged(torch.nn.Module):
             in_features=linear_hidden_dim * num_heads * (3 if concat_ua else 1),
             out_features=embedding_dim,
         )
-        # self._ffn = FeedforwardNeuralNetwork(
-        #     input_size = embedding_dim,
-        #     hidden_size = embedding_dim * 2,
-        #     output_size = embedding_dim,
-        #     dropout = dropout_ratio,
-        #     activation = linear_activation
-        # )
-        # self._pre_ffn = FeedforwardNeuralNetwork(
-        #     input_size = embedding_dim,
-        #     hidden_size = embedding_dim * 2,
-        #     output_size = embedding_dim,
-        #     dropout = dropout_ratio,
-        #     activation = linear_activation
-        # )
         torch.nn.init.xavier_uniform_(self._o.weight)
-        # self._ffn.init()
-        # self._pre_ffn.init()
         self._eps: float = epsilon
 
     def _norm_input(self, x: torch.Tensor) -> torch.Tensor:
@@ -395,17 +318,6 @@ class SequentialTransductionUnitJagged(torch.nn.Module):
             assert cache is not None
             x = x[delta_x_offsets[0], :]
             cached_v, cached_q, cached_k, cached_outputs = cache
-
-        # normed_x = self._norm_input(x)
-        # x = (
-        #     self._pre_ffn(
-        #         F.dropout(
-        #             normed_x, 
-        #             p = self._dropout_ratio,
-        #             training = self.training
-        #         )
-        #     ) + x
-        # )
         
         normed_x = self._norm_input(x)
 
@@ -527,17 +439,6 @@ class SequentialTransductionUnitJagged(torch.nn.Module):
         
         new_outputs = block_output
         
-        # normalized_ffn_input = self._norm_input(block_output)
-        # new_outputs = (
-        #     self._ffn(
-        #         F.dropout(
-        #             normalized_ffn_input, 
-        #             p = self._dropout_ratio,
-        #             training = self.training
-        #         )
-        #     ) + block_output
-        # )
-
         if delta_x_offsets is not None:
             new_outputs = cached_outputs.index_copy_(
                 dim=0, index=delta_x_offsets[0], source=new_outputs
