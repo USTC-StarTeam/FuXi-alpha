@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FuXi-alpha</title>
+  <style>
+    :root { --ink: #111827; --muted: #526071; --line: #d9e2ef; --accent: #4f46e5; --soft: #eef2ff; }
+    * { box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: #f8fafc; line-height: 1.62; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 22px 72px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+    .eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 13px; }
+    h1 { margin: 8px 0 12px; font-size: clamp(34px, 6vw, 64px); line-height: 1.02; letter-spacing: 0; }
+    h2 { margin-top: 42px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 27px; }
+    p, h1, h2, .paper, .button { overflow-wrap: anywhere; }
+    p { max-width: 920px; }
+    a { color: #4338ca; }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .button { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 13px; border-radius: 8px; border: 1px solid #c4c7f3; background: white; color: #4338ca; text-decoration: none; font-weight: 700; }
+    .paper { display: block; max-width: 100%; width: 100%; white-space: normal; word-break: break-word; font-size: 18px; background: var(--soft); border-left: 4px solid var(--accent); padding: 16px 18px; }
+    img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: white; }
+    pre { overflow-x: auto; background: #111827; color: #f8fafc; padding: 16px; border-radius: 8px; }
+    code { font-family: Consolas, Menlo, monospace; }
+    @media (max-width: 640px) {
+      main { padding: 34px 18px 56px; }
+      .links { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .button { justify-content: center; min-width: 0; padding: 7px 8px; font-size: 15px; }
+      .paper { font-size: 14px; line-height: 1.55; padding: 14px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">WWW Companion 2025 · Generative Recommendation</div>
+      <h1>FuXi-alpha</h1>
+      <p>Feature-interaction enhanced Transformer for scaling sequential recommendation models.</p>
+      <div class="links">
+        <a class="button" href="https://doi.org/10.1145/3701716.3715448">Paper</a>
+        <a class="button" href="https://arxiv.org/abs/2502.03036">arXiv</a>
+        <a class="button" href="https://arxiv.org/pdf/2502.03036">PDF</a>
+        <a class="button" href="https://github.com/USTC-StarTeam/FuXi-alpha">Code</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>1. Paper</h2>
+      <p class="paper">Yufei Ye, Wei Guo, Jin Yao Chin, Hao Wang, Hong Zhu, Xi Lin, Yuyang Ye, Yong Liu, Ruiming Tang, Defu Lian, and Enhong Chen. <strong>FuXi-alpha: Scaling Recommendation Model with Feature Interaction Enhanced Transformer</strong>. In <em>Companion Proceedings of the ACM Web Conference 2025</em>, pages 557-566, 2025.</p>
+      <p>FuXi-alpha studies how to scale sequential recommendation with explicit temporal, positional, and semantic interaction channels.</p>
+    </section>
+
+    <section>
+      <h2>2. Method At A Glance</h2>
+      <img src="assets/method-overview.png" alt="FuXi-alpha method overview">
+    </section>
+
+    <section>
+      <h2>3. Quick Start</h2>
+      <pre><code>pip install -r requirements.txt
+mkdir -p tmp/ && python3 preprocess_public_data.py
+CUDA_VISIBLE_DEVICES=0 python3 main.py \
+  --gin_config_file=configs/ml-1m/fuxi-sampled-softmax-n128-final.gin \
+  --master_port=12345</code></pre>
+    </section>
+
+    <section>
+      <h2>4. Citation</h2>
+      <pre><code>@inproceedings{ye2025fuxialpha,
+  title={FuXi-alpha: Scaling Recommendation Model with Feature Interaction Enhanced Transformer},
+  author={Ye, Yufei and Guo, Wei and Chin, Jin Yao and Wang, Hao and Zhu, Hong and Lin, Xi and Ye, Yuyang and Liu, Yong and Tang, Ruiming and Lian, Defu and Chen, Enhong},
+  booktitle={Companion Proceedings of the ACM Web Conference 2025},
+  pages={557--566},
+  year={2025},
+  doi={10.1145/3701716.3715448}
+}</code></pre>
+    </section>
+  </main>
+</body>
+</html>
