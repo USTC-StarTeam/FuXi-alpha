@@ -96,6 +96,13 @@ tensorboard --logdir ~/generative-recommenders/exps/ml-20m-l200/ --port 24001 --
 
 ## 10. Experimental Highlights
 
+![FuXi-alpha public and industrial results](docs/assets/fuxi-alpha-main-results.png)
+
+![FuXi-alpha efficiency, ablation, and scaling results](docs/assets/fuxi-alpha-efficiency-ablation.png)
+
+These experiment crops show the public benchmark comparison, industrial result, efficiency table, ablation table, and scaling curve that motivate the concise summary below.
+
+
 FuXi-alpha is designed for recommendation-model scaling rather than only small-model accuracy. The method separates interaction channels so temporal and positional signals are not collapsed into one representation path.
 
 | Dataset | Base NDCG@10 / HR@10 | FuXi-alpha NDCG@10 / HR@10 | Readout |
@@ -131,5 +138,6 @@ If you find FuXi-alpha useful, please cite:
 
 ## 13. Contact
 
-- First author: Yufei Ye.
+- Co-first authors: Yufei Ye (`aboluo2003@mail.ustc.edu.cn`) and Wei Guo (`guowei67@huawei.com`).
+- Corresponding authors: Hao Wang (`wanghao3@ustc.edu.cn`), Defu Lian (`liandefu@ustc.edu.cn`), and Enhong Chen (`cheneh@ustc.edu.cn`).
 - Repository questions: please open a GitHub issue in this repository.
