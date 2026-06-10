@@ -161,11 +161,38 @@ tensorboard --logdir ~/generative-recommenders/exps/ml-20m-l200/ --port 24001 --
 <li>Large configs are included for scaling comparisons with HSTU and SASRec baselines.</li>
 </ul>
 <h2 id="10-experimental-highlights">10. Experimental Highlights</h2>
-<ul>
-<li>FuXi-alpha is designed for recommendation-model scaling rather than only small-model accuracy.</li>
-<li>The method separates interaction channels so temporal and positional signals are not collapsed into one representation path.</li>
-<li>The public configs make it easier to compare FuXi-alpha with SASRec and HSTU under the same training pipeline.</li>
-</ul>
+<p>FuXi-alpha is designed for recommendation-model scaling rather than only small-model accuracy. The method separates interaction channels so temporal and positional signals are not collapsed into one representation path.</p>
+<table>
+<thead><tr>
+<th>Dataset</th>
+<th>Base NDCG@10 / HR@10</th>
+<th>FuXi-alpha NDCG@10 / HR@10</th>
+<th>Readout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MovieLens-1M</td>
+<td>0.1454 / 0.2676</td>
+<td>0.1934 / 0.3359</td>
+<td>Explicit and implicit feature interactions improve the public benchmark setting.</td>
+</tr>
+<tr>
+<td>MovieLens-20M</td>
+<td>0.1452 / 0.2647</td>
+<td>0.2086 / 0.3530</td>
+<td>The gain grows on the larger MovieLens dataset.</td>
+</tr>
+<tr>
+<td>KuaiRand</td>
+<td>0.0476 / 0.0928</td>
+<td>0.0555 / 0.1105</td>
+<td>The method also improves the industrial-style public dataset.</td>
+</tr>
+</tbody>
+</table>
+<p>The paper reports average gains over prior state of the art of <strong>+7.26% NDCG@10</strong>, <strong>+5.24% NDCG@50</strong>, <strong>+6.14% HR@10</strong>, <strong>+3.19% HR@50</strong>, and <strong>+6.90% MRR</strong> across the three public datasets.</p>
+<p><strong>Conclusion:</strong> FuXi-alpha shows that generative recommendation models can benefit from scale-aware channel design while remaining reproducible in the released pipeline.</p>
 <h2 id="11-notes-for-maintainers">11. Notes For Maintainers</h2>
 <ul>
 <li>Keep FuXi-alpha implementation changes under <code>generative_recommenders/modeling/sequential/</code> unless the training pipeline itself needs to change.</li>

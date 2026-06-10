@@ -96,9 +96,17 @@ tensorboard --logdir ~/generative-recommenders/exps/ml-20m-l200/ --port 24001 --
 
 ## 10. Experimental Highlights
 
-- FuXi-alpha is designed for recommendation-model scaling rather than only small-model accuracy.
-- The method separates interaction channels so temporal and positional signals are not collapsed into one representation path.
-- The public configs make it easier to compare FuXi-alpha with SASRec and HSTU under the same training pipeline.
+FuXi-alpha is designed for recommendation-model scaling rather than only small-model accuracy. The method separates interaction channels so temporal and positional signals are not collapsed into one representation path.
+
+| Dataset | Base NDCG@10 / HR@10 | FuXi-alpha NDCG@10 / HR@10 | Readout |
+| --- | --- | --- | --- |
+| MovieLens-1M | 0.1454 / 0.2676 | 0.1934 / 0.3359 | Explicit and implicit feature interactions improve the public benchmark setting. |
+| MovieLens-20M | 0.1452 / 0.2647 | 0.2086 / 0.3530 | The gain grows on the larger MovieLens dataset. |
+| KuaiRand | 0.0476 / 0.0928 | 0.0555 / 0.1105 | The method also improves the industrial-style public dataset. |
+
+The paper reports average gains over prior state of the art of **+7.26% NDCG@10**, **+5.24% NDCG@50**, **+6.14% HR@10**, **+3.19% HR@50**, and **+6.90% MRR** across the three public datasets.
+
+**Conclusion:** FuXi-alpha shows that generative recommendation models can benefit from scale-aware channel design while remaining reproducible in the released pipeline.
 
 ## 11. Notes For Maintainers
 
